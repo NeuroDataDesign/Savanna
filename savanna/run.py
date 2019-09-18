@@ -11,12 +11,12 @@ import torch
 from cnn.models.resnet import ResNet18
 from cnn.models.simple import SimpleCNN1layer, SimpleCNN2Layers
 from cnn.trainer import run_cnn
-from dataset import get_dataset
-from random_forest.deep_conv_rf_runners import (run_one_layer_deep_conv_rf,
+from utils.dataset import get_dataset
+from utils.deep_conv_rf_runners import (run_one_layer_deep_conv_rf,
                                                 run_two_layer_deep_conv_rf)
 from random_forest.naive_rerf import run_naive_rerf
 from random_forest.naive_rf import run_naive_rf
-from utils import get_title_and_results_path
+from utils.utils import get_title_and_results_path
 
 warnings.filterwarnings("ignore")
 parser = ArgumentParser()

@@ -7,12 +7,13 @@ from sklearn.ensemble import RandomForestClassifier
 from RerF import fastRerF
 
 
-class DeepConvRF(object):
-    def __init__(self, type="unshared", kernel_size=5, stride=2, rerf_params={"num_trees": 1000, "tree_type": "binnedBase"}):
-        self.kernel_size = kernel_size
-        self.stride = stride
-        self.type = type
-        self.rerf_params = rerf_params
+class ConvRF(object):
+    def __init__(self, type="unshared", kernel_size=5, stride=2, num_trees: 1000, tree_type: "binnedBase"):
+        self.kernel_size = kernel_size #old
+        self.stride = stride #old
+        self.type = type #old
+        self.num_trees = num_trees
+        self.tree_type = tree_type #make s-rerf
         self.kernel_forest = None
         self.time_taken = {"load": 0, "train_chop": 0, "test_chop": 0, "train": 0, "fit": 0, "train_post": 0, "test": 0, "test_post": 0}
 
@@ -50,7 +51,7 @@ class DeepConvRF(object):
 
         return out_images, out_labels
 
-    def convolve_fit(self, images, labels):
+    def fit(self, images, labels):
         train_chop_start = time.time()
         sub_images, sub_labels = self._convolve_chop(images, labels=labels, flatten=True)
         train_chop_end = time.time()
@@ -81,7 +82,7 @@ class DeepConvRF(object):
             all_sub_images = sub_images.reshape(batch_size*out_dim*out_dim, -1)
             all_sub_labels = sub_labels.reshape(batch_size*out_dim*out_dim, -1)
 
-            self.kernel_forest = RandomForestClassifier(n_estimators=1000, n_jobs=-1)
+            self.kernel_forest = RandomForestClassifier(n_estimators=self.num_trees, n_jobs=-1)
             self.kernel_forest.fit(all_sub_images, all_sub_labels)
             fit_end = time.time()
             self.time_taken["fit"] += (fit_end - fit_start)
@@ -96,7 +97,7 @@ class DeepConvRF(object):
 
         elif self.type == "rerf_shared":
             def approx_predict_proba_sample_wise(sample):
-                return np.array(self.kernel_forest.predict_post(sample.tolist())[1] / float(self.rerf_params["num_trees"]))
+                return np.array(self.kernel_forest.predict_post(sample.tolist())[1] / float(self.num_trees))
 
             fit_start = time.time()
             all_sub_images = sub_images.reshape(batch_size*out_dim*out_dim, -1)
@@ -104,8 +105,8 @@ class DeepConvRF(object):
 
             self.kernel_forest = fastRerF(X=all_sub_images,
                                           Y=all_sub_labels,
-                                          forestType=self.rerf_params["tree_type"],
-                                          trees=self.rerf_params["num_trees"],
+                                          forestType=self.tree_type,
+                                          trees=self.num_trees,
                                           numCores=cpu_count() - 1)
             fit_end = time.time()
             self.time_taken["fit"] += (fit_end - fit_start)
@@ -123,7 +124,7 @@ class DeepConvRF(object):
 
         return convolved_image
 
-    def convolve_predict(self, images):
+    def predict(self, images):
         if not self.kernel_forest:
             raise Exception("Should fit training data before predicting")
 
@@ -147,7 +148,7 @@ class DeepConvRF(object):
                         sub_images[:, i, j])[..., 1][..., np.newaxis]
                 elif self.type == "rerf_shared":
                     def approx_predict_proba_sample_wise(sample):
-                        return np.array(self.kernel_forest.predict_post(sample.tolist())[1] / float(self.rerf_params["num_trees"]))
+                        return np.array(self.kernel_forest.predict_post(sample.tolist())[1] / float(self.num_trees))
 
                     kernel_predictions[:, i, j] = np.array([approx_predict_proba_sample_wise(
                         sample) for sample in sub_images[:, i, j]])[..., np.newaxis]

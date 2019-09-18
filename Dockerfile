@@ -6,7 +6,7 @@
 FROM ubuntu:16.04
 
 # set maintainer
-LABEL maintainer="spalani2@jhu.edu"
+LABEL maintainer="bvarjav1@jhu.edu"
 
 # update
 RUN apt-get update && apt-get -y upgrade
