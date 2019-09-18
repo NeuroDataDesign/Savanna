@@ -8,7 +8,7 @@ from RerF import fastRerF
 
 
 class ConvRF(object):
-    def __init__(self, type="unshared", kernel_size=5, stride=2, num_trees: 1000, tree_type: "binnedBase"):
+    def __init__(self, type="unshared", kernel_size=5, stride=2, num_trees = 1000, tree_type = "binnedBase"):
         self.kernel_size = kernel_size #old
         self.stride = stride #old
         self.type = type #old
