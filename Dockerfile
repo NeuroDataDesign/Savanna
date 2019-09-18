@@ -77,6 +77,8 @@ RUN py3clean .
 
 # set working dir to workspace (you can mount any local host dir into this path)
 WORKDIR /root/workspace/
+RUN git clone https://github.com/NeuroDataDesign/savanna.git
+WORKDIR /root/workspace/savanna
 
 # launch terminal
 CMD ["/bin/bash"]
