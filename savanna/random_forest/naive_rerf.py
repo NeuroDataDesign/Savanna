@@ -3,8 +3,8 @@ from multiprocessing import cpu_count
 
 from sklearn.metrics import accuracy_score
 
-from dataset import get_subset_data
-from RerF import fastPredict, fastRerF
+from utils.dataset import get_subset_data
+from rerf.RerF import fastPredict, fastRerF
 
 TREE_TYPE = "binnedBase"
 

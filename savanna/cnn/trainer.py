@@ -7,7 +7,7 @@ import torch.backends.cudnn as cudnn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
-from dataset import get_subset_data
+from utils.dataset import get_subset_data
 
 
 def cnn_train_model(model, train_loader, test_loader, optimizer, scheduler, config):
