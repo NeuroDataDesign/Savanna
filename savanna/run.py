@@ -221,16 +221,16 @@ if __name__ == '__main__':
                        "deep_conv_rf_old_two_layer_acc_vs_n", "DeepConvRF (2-layer, unshared)", rf_type="unshared")
 
         # DeepConvRF Shared
-        run_experiment(run_one_layer_deep_conv_rf,
-                       "deep_conv_rf_acc_vs_n", "DeepConvRF (1-layer, shared)", rf_type="shared")
-        run_experiment(run_two_layer_deep_conv_rf,
-                       "deep_conv_rf_two_layer_acc_vs_n", "DeepConvRF (2-layer, shared)", rf_type="shared")
-
-        # DeepConvRerF Shared
-        run_experiment(run_one_layer_deep_conv_rf,
-                       "deep_conv_rf_pyrerf_acc_vs_n", "DeepConvRF (1-layer, shared, pyrerf)", rf_type="rerf_shared")
-        run_experiment(run_two_layer_deep_conv_rf,
-                       "deep_conv_rf_pyrerf_two_layer_acc_vs_n", "DeepConvRF (2-layer, shared, pyrerf)", rf_type="rerf_shared")
+#        run_experiment(run_one_layer_deep_conv_rf,
+#                       "deep_conv_rf_acc_vs_n", "DeepConvRF (1-layer, shared)", rf_type="shared")
+#        run_experiment(run_two_layer_deep_conv_rf,
+#                       "deep_conv_rf_two_layer_acc_vs_n", "DeepConvRF (2-layer, shared)", rf_type="shared")
+#
+#        # DeepConvRerF Shared
+#        run_experiment(run_one_layer_deep_conv_rf,
+#                       "deep_conv_rf_pyrerf_acc_vs_n", "DeepConvRF (1-layer, shared, pyrerf)", rf_type="rerf_shared")
+#        run_experiment(run_two_layer_deep_conv_rf,
+#                       "deep_conv_rf_pyrerf_two_layer_acc_vs_n", "DeepConvRF (2-layer, shared, pyrerf)", rf_type="rerf_shared")
 
     if RUN_CNN:
         # CNN
