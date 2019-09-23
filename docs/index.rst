@@ -1,7 +1,7 @@
 Welcome to savanna-ndd's documentation!
-=====================================
+=======================================
 
-.. automodule:: savanna.example.example
+.. automodule:: savanna
     :members:
 
 .. toctree::
