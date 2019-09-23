@@ -37,7 +37,8 @@ matrix:
         - pip install -r requirements.txt
         - pip install -U pytest pytest-cov codecov
       script:
-        - pytest --cov ../tests
+        - cd ..
+        - pytest --cov .
 
       after_success:
       - codecov
