@@ -1,41 +1,41 @@
 - language: cpp
-  dist: xenial
-  sudo: false
-  compiler:
-    - gcc
+dist: xenial
+sudo: false
+compiler:
+  - gcc
 
-  addons:
-    apt:
-      sources:
-        - ubuntu-toolchain-r-test
-      packages:
-        - g++-6
-        - libeigen3-dev
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-6
+      - libeigen3-dev
 
-  before_install:
-    - cd packedForest
+before_install:
+  - cd packedForest
 
-  script:
-    - make
-    - cd test
-    - make
+script:
+  - make
+  - cd test
+  - make
 
 - language: python
-  dist: xenial
-  python:
-    - "3.6"
+dist: xenial
+python:
+  - "3.6"
 
-  addons:
-    apt:
-      packages:
-        - libeigen3-dev
+addons:
+  apt:
+    packages:
+      - libeigen3-dev
 
-  before_install: cd .
-  install:
-    - pip install -r requirements.txt
-    - pip install -U pytest pytest-cov codecov
-  script:
-    - pytest tests/ --cov=./savanna
+before_install: cd Python
+install:
+  - pip install -r requirements.txt
+  - pip install -U pytest pytest-cov codecov
+script:
+  - pytest tests/ --cov=./savanna
 
-  after_success:
-  - codecov -t 0b84166a-b627-47d0-9dc5-d816380465bb
+after_success:
+- codecov -t 0b84166a-b627-47d0-9dc5-d816380465bb
