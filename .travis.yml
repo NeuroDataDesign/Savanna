@@ -32,9 +32,12 @@ matrix:
           packages:
             - libeigen3-dev
 
-      before_install: cd Python
+      before_install: cd ..
       install:
         - pip install -r requirements.txt
-        - cd ..
+        - pip install -U pytest pytest-cov codecov
       script:
-        - pytest tests/
+        - pytest tests/ --cov=./savanna
+
+      after_success:
+      - codecov -t 0b84166a-b627-47d0-9dc5-d816380465bb
