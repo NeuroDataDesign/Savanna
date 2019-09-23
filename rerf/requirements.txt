@@ -3,4 +3,6 @@ numpy>=1.16.3
 scikit-learn>=0.21.0
 requests>=2.22.0
 torch
+torchvision
+scipy
 rerf
