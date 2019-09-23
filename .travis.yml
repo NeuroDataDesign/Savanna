@@ -19,7 +19,8 @@ script:
 - make
 - cd test
 - make
-
+- cd ..
+- cd ..
 
 
 language: python
