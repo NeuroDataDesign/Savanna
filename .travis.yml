@@ -14,14 +14,6 @@ matrix:
     	- g++-6
     	- libeigen3-dev
     
-    before_install:
-    - cd packedForest
-    
-    script:
-    - make
-    - cd test
-    - make
-    
     - language: python
     dist: xenial
     python:
@@ -32,7 +24,6 @@ matrix:
       packages:
     	- libeigen3-dev
     
-    before_install: cd Python
     install:
     - pip install -r requirements.txt
     - pip install -U pytest pytest-cov codecov
