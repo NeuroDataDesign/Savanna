@@ -2,3 +2,5 @@
 
 - change deep_conv_RF_runners to be more customizable within a class
 - possible bugs installing SPORF
+- replace SPORF with MORF
+- Figure out convolutional layer
