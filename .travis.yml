@@ -41,4 +41,4 @@ matrix:
     - pytest tests/ --cov=./savanna
     
     after_success:
-    - codecov
+    - codecov -t 0b84166a-b627-47d0-9dc5-d816380465bb
