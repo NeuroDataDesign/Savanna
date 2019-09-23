@@ -31,8 +31,7 @@ packages:
 - libeigen3-dev
 
 before_install:
-- cd ..
-- pwd
+- cd Python
 
 install:
 - pip install -r requirements.txt
