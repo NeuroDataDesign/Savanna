@@ -1,3 +1,27 @@
+language: cpp
+dist: xenial
+sudo: false
+compiler:
+- gcc
+
+addons:
+apt:
+  sources:
+    - ubuntu-toolchain-r-test
+  packages:
+    - g++-6
+    - libeigen3-dev
+
+before_install:
+- cd packedForest
+
+script:
+- make
+- cd test
+- make
+
+
+
 language: python
 dist: xenial
 python:
