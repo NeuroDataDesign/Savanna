@@ -19,9 +19,6 @@ script:
 - make
 - cd test
 - make
-- cd ..
-- cd ..
-
 
 language: python
 dist: xenial
@@ -32,6 +29,10 @@ addons:
 apt:
 packages:
 - libeigen3-dev
+
+before_install:
+- cd ..
+- pwd
 
 install:
 - pip install -r requirements.txt
