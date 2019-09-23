@@ -15,7 +15,7 @@ matrix:
             - libeigen3-dev
 
       before_install:
-        - cd packedForest
+        - cd rerf/packedForest
 
       script:
         - make
@@ -32,7 +32,7 @@ matrix:
           packages:
             - libeigen3-dev
 
-      before_install: cd Python
+      before_install: cd rerf 
       install:
         - pip install -r requirements.txt
         - pip install -U pytest pytest-cov codecov
