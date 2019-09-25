@@ -3,7 +3,7 @@ import time
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-from utils.dataset import get_subset_data
+from savanna.utils.dataset import get_subset_data
 
 
 def run_naive_rf(dataset_name, data, choosen_classes, sub_train_indices, rf_type="shared"):
