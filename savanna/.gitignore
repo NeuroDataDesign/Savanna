@@ -1,1 +1,7 @@
 data
+__pycache__
+random_forest/__pycache__
+inference/__pycache__
+random_forst/__pycache__
+utils/__pycache__
+plot/__pycache__
