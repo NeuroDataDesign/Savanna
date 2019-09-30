@@ -10,4 +10,3 @@ def test_run_on_naive_rf():
 def test_naive_rerf():
     results = run_experiment(run_naive_rerf, "Naive Rerf")
     assert isinstance(results, list)
-    
