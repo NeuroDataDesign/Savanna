@@ -11,7 +11,7 @@ def test_run_on_naive_rf_thorough():
     numpy_data = dict()
     (numpy_data["train_images"], numpy_data["train_labels"]), (numpy_data["test_images"], numpy_data["test_labels"]) = get_dataset(DATA_PATH, DATASET_NAME, is_numpy=True)
 
-    CHOSEN_CLASSES = [0,3]
+    CHOSEN_CLASSES = list(range(10))
     rf_type = "shared"
     accuracy, _ = run_naive_rf(DATASET_NAME, numpy_data, CHOSEN_CLASSES, np.arange(1000), rf_type)
     assert isinstance(accuracy, float)
@@ -25,7 +25,7 @@ def test_run_on_naive_rerf_thorough():
     numpy_data = dict()
     (numpy_data["train_images"], numpy_data["train_labels"]), (numpy_data["test_images"], numpy_data["test_labels"]) = get_dataset(DATA_PATH, DATASET_NAME, is_numpy=True)
 
-    CHOSEN_CLASSES = [0,3]
+    CHOSEN_CLASSES = list(range(10))
     rf_type = "shared"
     accuracy, _ = run_naive_rerf(DATASET_NAME, numpy_data, CHOSEN_CLASSES, np.arange(1000), rf_type)
     assert isinstance(accuracy, float)
