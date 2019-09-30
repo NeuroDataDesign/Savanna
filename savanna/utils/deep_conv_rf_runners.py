@@ -13,6 +13,8 @@ RERF_NUM_TREES = 1000
 RERF_TREE_TYPE = "binnedBase"
 
 
+
+
 def run_one_layer_deep_conv_rf(dataset_name, data, choosen_classes, sub_train_indices, type="shared"):
     (train_images, train_labels), (test_images, test_labels) = get_subset_data(
         dataset_name, data, choosen_classes, sub_train_indices)
