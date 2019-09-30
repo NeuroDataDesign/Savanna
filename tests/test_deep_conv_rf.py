@@ -1,5 +1,7 @@
 import pytest
 from savanna.utils.deep_conv_rf_runners import run_one_layer_deep_conv_rf, run_two_layer_deep_conv_rf
+from savanna.utils.utils import run_experiment
+
 
 def test_one_layer_deep_conv_rf():
 
