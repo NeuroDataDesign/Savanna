@@ -5,8 +5,8 @@ from multiprocessing import cpu_count
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-from utils.dataset import get_subset_data
-from inference.conv_rf import ConvRF
+from savanna.utils.dataset import get_subset_data
+from savanna.inference.conv_rf import ConvRF
 from rerf.RerF import fastPredict, fastRerF
 
 RERF_NUM_TREES = 1000
