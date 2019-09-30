@@ -1,7 +1,7 @@
 # Taken from Satish's repo
 ## commands to build and run this docker file
 # docker build -t deep-conv-rf:latest - < Dockerfile
-# docker run -it --rm -v <local_host_dir_path>:/root/workspace/ --name deep-conv-rf-env deep-conv-rf:latest
+# docker run -it --rm -v ./workspace/ --name deep-conv-rf-env deep-conv-rf:latest
 
 FROM ubuntu:18.04
 
