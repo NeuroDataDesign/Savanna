@@ -32,11 +32,10 @@ matrix:
           packages:
             - libeigen3-dev
 
-      before_install: cd rerf
+      before_install: cd rerf 
       install:
         - pip install -r requirements.txt
         - pip install -U pytest pytest-cov codecov
-        - travis_wait 60 mvn install
       script:
         - pytest --cov=savanna ../tests
 
