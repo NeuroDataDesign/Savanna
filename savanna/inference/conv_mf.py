@@ -4,7 +4,7 @@ from multiprocessing import cpu_count
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
-from rerf.RerF import fastRerF
+from rerf.rerfClassifier import rerfClassifier
 
 class ConvMF(object):
     def __init__(self, num_trees = 1000, tree_type = 'S-RerF'):
@@ -25,17 +25,16 @@ class ConvMF(object):
         all_sub_images = sub_images.reshape(batch_size*length*width, -1)
         all_sub_labels = sub_labels.reshape(batch_size*length*width, -1)
 
-        self.forest = rerf.Rerf.FastRerf(X=all_sub_images,
-                                         Y=all_sub_labels,
-                                         forestType=self.tree_type,
-                                         trees=self.num_trees,
-                                         numCores=cpu_count() - 1,
-                                         imageHeight=length,
-                                         imageWidth=width,
-                                         patchHeightMin=1,
-                                         patchWidthMin=1,
-                                         patchHeightMax=3,
-                                         patchWidthMax=3,)
+        self.forest = rerfClassifier(projection_matrix="S-RerF",
+                                         n_estimators=self.num_trees,
+                                         n_jobs=cpu_count() - 1,
+                                         image_height=length,
+                                         image_width=width,
+                                         patch_height_min=1,
+                                         patch_width_min=1,
+                                         patch_height_max=3,
+                                         patch_width_max=3)
+        self.forest.fit(all_sub_images, all_sub_labels)
         #Is this necessary
         for i in range(length):
             for j in range(width):
