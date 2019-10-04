@@ -18,12 +18,13 @@ class ConvMF(object):
             return np.array(self.forest.predict_post(sample.tolist())[1] / float(self.num_trees))
 
 
-        batch_size, length, width, _ = images.shape
-        convolved_image = np.zeros((images.shape[0], length, width, 1))
 
 
-        all_sub_images = sub_images.reshape(batch_size*length*width, -1)
-        all_sub_labels = sub_labels.reshape(batch_size*length*width, -1)
+        batch_size, length, width,_ = images.shape
+        MF_image = np.zeros((images.shape[0], length, width, 1))
+
+        reshaped_images = images.reshape(batch_size, length*width)
+
 
         self.forest = rerfClassifier(projection_matrix="S-RerF",
                                          n_estimators=self.num_trees,
@@ -34,7 +35,7 @@ class ConvMF(object):
                                          patch_width_min=1,
                                          patch_height_max=3,
                                          patch_width_max=3)
-        self.forest.fit(all_sub_images, all_sub_labels)
+        self.forest.fit(reshaped_images, labels)
         #Is this necessary
         for i in range(length):
             for j in range(width):
