@@ -39,7 +39,7 @@ class ConvMF(object):
         for i in range(length):
             for j in range(width):
                 MF_image[:, i, j] = np.array([approx_predict_proba_sample_wise(
-                    sample) for sample in sub_images[:, i, j]])[..., np.newaxis]
+                    sample) for sample in images[:, i, j]])[..., np.newaxis]
 
         return MF_image
 
