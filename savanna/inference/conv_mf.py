@@ -15,7 +15,7 @@ class ConvMF(object):
     def fit(self, images, labels):
         #Confused by this... ask Bijan
         def approx_predict_proba_sample_wise(sample):
-            return np.array(self.forest.predict_post(sample.tolist())[1] / float(self.num_trees))
+            return np.array(self.forest.predict_proba(sample.tolist())[1] / float(self.num_trees))
 
 
 
@@ -55,7 +55,7 @@ class ConvMF(object):
         for i in range(length):
             for j in range(width):
                 def approx_predict_proba_sample_wise(sample):
-                    return np.array(self.forest.predict_post(sample.tolist())[1] / float(self.num_trees))
+                    return np.array(self.forest.predict_proba(sample.tolist())[1] / float(self.num_trees))
                 kernel_predictions[:, i, j] = np.array([approx_predict_proba_sample_wise(
                     sample) for sample in images[:, i, j]])[..., np.newaxis]
 
