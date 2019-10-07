@@ -1,13 +1,31 @@
-Welcome to savanna-ndd's documentation!
-=======================================
+.. -*- coding: utf8 -*-
 
-.. automodule:: savanna
-    :members:
+.. _contents:
+
+Overview of SaVANNA-ndd
+=======================
+
+SaVANNA is a Python package for using sparse forests on image data.
+
+Documentation
+=============
+
+SaVANNA is a random forest package in Python3.6.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
+    install
+    tutorial
+    reference/index
+    license
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Links:
+
+    SaVANNA @ GitHub <http://www.github.com/neurodatadesign/savanna/>
+    Issue Tracker <https://github.com/neurodatadesign/savanna/issues>
 
 
 Indices and tables
