@@ -10,7 +10,7 @@ def test_empty():
     assert True
 
 def test_convmf():
-    trainset, testset = get_dataset("../savanna/data", "FashionMNIST", is_numpy=True)
+    trainset, testset = get_dataset("savanna/datasets", "FashionMNIST", is_numpy=True)
 
     #trainset, testset = get_subset_data( choosen_classes, sub_train_indices, is_numpy=True, batch_size=None):
 

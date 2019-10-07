@@ -1,7 +1,7 @@
 import pytest
 from savanna.utils.utils import run_experiment
-from savanna.random_forest.naive_rf import run_naive_rf
-from savanna.random_forest.naive_rerf import run_naive_rerf
+from savanna.inference.naive_rf import run_naive_rf
+from savanna.inference.naive_rerf import run_naive_rerf
 
 def test_run_on_naive_rf():
     results = run_experiment(run_naive_rf, "Naive RF")

@@ -12,7 +12,7 @@ def print_items(fraction_of_train_samples, number_of_train_samples, best_accurac
     logging.info("Experiment Runtime: " + str(time_taken) + "\n")
 
 def run_experiment(experiment, experiment_name, rf_type="shared", cnn_model=None, cnn_config={}):
-    DATA_PATH = "../savanna/data"
+    DATA_PATH = "../savanna/datasets"
 
     MIN_TRAIN_SAMPLES = 10
     MAX_TRAIN_SAMPLES = 100
