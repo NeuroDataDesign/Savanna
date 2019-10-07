@@ -153,6 +153,18 @@ def plot_all_figures(config):
     plot_experiments("Classification Performance", all_experiments, config, is_performance=True,
                      plot_all_trials=False, plot_error_bars=False, save_to="perf_comparisons")
 
+###############################################################################
+# Custom Plots
+###############################################################################
+
+def heatmap():
+    return None
+
+def pairplot():
+    return None
+
+def error_train_test():
+    return None
 
 ###############################################################################
 # Plot Groups
