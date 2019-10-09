@@ -5,11 +5,11 @@ from multiprocessing import cpu_count
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-from utils.dataset import get_subset_data
-from inference.conv_rf import ConvRF
+from savanna.utils.dataset import get_subset_data
+from savanna.inference.conv_rf import ConvRF
 from rerf.RerF import fastPredict, fastRerF
 
-RERF_NUM_TREES = 1000
+RERF_NUM_TREES = 10
 RERF_TREE_TYPE = "binnedBase"
 
 
@@ -26,7 +26,7 @@ def run_one_layer_deep_conv_rf(dataset_name, data, choosen_classes, sub_train_in
         conv1 = ConvRF(type="rerf_shared", kernel_size=10, stride=2,
             num_trees = RERF_NUM_TREES, tree_type = RERF_TREE_TYPE)
     else:
-        conv1 = ConvRF(type=type, kernel_size=10, stride=2)
+        conv1 = ConvRF(type=type, kernel_size=20, stride=20)
 
     conv1_map = conv1.fit(train_images, train_labels)
     conv1_map_test = conv1.predict(test_images)
@@ -70,7 +70,7 @@ def run_two_layer_deep_conv_rf(dataset_name, data, choosen_classes, sub_train_in
         conv1 = ConvRF(type="rerf_shared", kernel_size=10, stride=2,
             num_trees = RERF_NUM_TREES, tree_type = RERF_TREE_TYPE)
     else:
-        conv1 = ConvRF(type=type, kernel_size=10, stride=2)
+        conv1 = ConvRF(type=type, kernel_size=20, stride=20)
     conv1_map = conv1.fit(train_images, train_labels)
     conv1_map_test = conv1.predict(test_images)
     time_taken = copy.deepcopy(conv1.time_taken)
@@ -80,7 +80,7 @@ def run_two_layer_deep_conv_rf(dataset_name, data, choosen_classes, sub_train_in
         conv2 = ConvRF(type="rerf_shared", kernel_size=7, stride=1,
             num_trees = RERF_NUM_TREES, tree_type = RERF_TREE_TYPE)
     else:
-        conv2 = ConvRF(type=type, kernel_size=7, stride=1)
+        conv2 = ConvRF(type=type, kernel_size=20, stride=20)
     conv2_map = conv2.fit(conv1_map, train_labels)
     conv2_map_test = conv2.predict(conv1_map_test)
     for key in time_taken:
