@@ -1,4 +1,4 @@
-.. -*- coding: utf8 -*-
+..  -*- coding: utf-8 -*-
 
 .. _contents:
 
@@ -13,10 +13,8 @@ Documentation
 SaVANNA is a random forest package in Python3.6.
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
 
-    install
-    tutorial
     reference/index
     license
 

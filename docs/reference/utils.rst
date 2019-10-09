@@ -1,13 +1,9 @@
 Utility
 =======
 
-.. currentmodule:: savanna.utils
+.. currentmodule:: savanna.utils.utils
 
 Data Helper Methods
 -------------------
 
-.. autofunction:: normalize
-
-.. autofunction:: get_dataset
-
-.. autofunction:: get_subset_data
+.. autofunction:: run_experiment
