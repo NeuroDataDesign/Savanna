@@ -4,6 +4,9 @@ import logging
 from savanna.utils.dataset import get_dataset
 
 def print_items(fraction_of_train_samples, number_of_train_samples, best_accuracy, time_taken, cnn_model, cnn_config):
+    """
+    Prints logging info while training cnns.
+    """
     if cnn_model:
         logging.info("CNN Config: " + str(cnn_config))
     logging.info("Train Fraction: " + str(fraction_of_train_samples))
@@ -12,7 +15,26 @@ def print_items(fraction_of_train_samples, number_of_train_samples, best_accurac
     logging.info("Experiment Runtime: " + str(time_taken) + "\n")
 
 def run_experiment(experiment, experiment_name, rf_type="shared", cnn_model=None, cnn_config={}):
-    DATA_PATH = "../savanna/data"
+    """
+    Runs an experiment
+
+    Parameters
+    ----------
+    experiment : function
+        The function to call during the experiment
+    experiment_name : string
+        The name of the experiment.
+    rf_type : string, optional default="shared"
+        Specifies the type of rf procedure to use.
+    cnn_model : string or None, optional (default=None)
+        Specifies the model to use.
+
+    Returns
+    -------
+    list
+        Accuracy of the function as n grows.
+    """
+    DATA_PATH = "savanna/datasets"
 
     MIN_TRAIN_SAMPLES = 10
     MAX_TRAIN_SAMPLES = 100
@@ -101,6 +123,9 @@ def run_experiment(experiment, experiment_name, rf_type="shared", cnn_model=None
     return acc_vs_n_all_trials
 
 def get_title_and_results_path(dataset_name, choosen_classes, min_train_samples, max_train_samples):
+    """
+    Gets results path for test logging
+    """
     if dataset_name == "CIFAR10":
         '''CIFAR10'''
         CIFAR10_MAP = {0: 'airplane', 1: 'automobile', 2: 'bird', 3: 'cat',
