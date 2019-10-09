@@ -1,25 +1,32 @@
-def network():
-	## Network is the base class of MORF.
-	return None
+from savanna.inference.conv_mf import ConvMF
 
-def morf():
-	## Add a MORF layer to a network
-	return None
+class Network(object):
 
-def sporf():
-	## Add a SPORF layer to a network
-	return None
+	def __init__(self):
+		self.layers = []
 
-#### Layers from Torch:
+	def add_convMF(self, SUBTYPE = 'native', NUM_TREES = 1000, TREE_TYPE = 'S-RerF', PATCH_HEIGHT_MIN = 1, PATCH_WIDTH_MIN = 1, PATCH_HEIGHT_MAX = 5, PATCH_WIDTH_MAX = 5):
+		self.layers.append(ConvMF(type = SUBTYPE,
+									num_trees = NUM_TREES,
+									tree_type = TREE_TYPE,
+									patch_height_min = PATCH_HEIGHT_MIN,
+									patch_width_min = PATCH_WIDTH_MIN,
+									patch_height_max = PATCH_HEIGHT_MAX,
+									patch_width_max = PATCH_WIDTH_MAX))
 
-def fullyconnected():
-	return None
+	def fit(self, images, labels):
+		prev = images
+		for layer in self.layers:
+			prev = layer.fit(prev, labels)
 
-def relu():
-	return None
+	def predict(self, images):
+		prediction = []
 
-def maxpool():
-	return None
+		prev = images
+		for i in range(len(self.layers)):
+			if i != len(self.layers) - 1:
+				prev = self.layers[i].predict(prev)
+			else:
+				prediction = self.layers[i].final_predict(prev)
 
-def convolutional():
-	return None
+		return prediction
