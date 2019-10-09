@@ -1,7 +1,7 @@
 # Taken from Satish's repo
 ## commands to build and run this docker file
-# docker build -t deep-conv-rf:latest - < Dockerfile
-# docker run -it --rm -v ./workspace/ --name deep-conv-rf-env deep-conv-rf:latest
+# docker build -t savanna:latest - < Dockerfile
+# docker run -it --rm -v ./workspace/ --name savanna-env savanna:latest
 
 FROM ubuntu:18.04
 
@@ -77,7 +77,7 @@ RUN py3clean .
 
 # set working dir to workspace (you can mount any local host dir into this path)
 WORKDIR /root/workspace/
-RUN git clone https://github.com/NeuroDataDesign/savanna.git
+RUN git clone https://github.com/NeuroDataDesign/savanna.git 
 WORKDIR /root/workspace/savanna
 
 # launch terminal
