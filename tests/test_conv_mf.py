@@ -92,7 +92,7 @@ def test_convmf_kernel():
             count += 1
     score = count/nsamples
 
-    assert score > 0.50
+    assert score > 0.5
 
     assert hasattr(layer, "type")
     assert hasattr(layer, "num_trees")
