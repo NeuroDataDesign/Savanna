@@ -22,7 +22,7 @@ class Network(object):
 		for layer in self.layers:
 			if isinstance(layer, ConvMF):
 				prev = layer.fit(prev, labels)
-			else:
+			#else:
 				 #NEED TO FIX THIS
 
 
