@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from rerf.rerfClassifier import rerfClassifier
 
 class ConvMF(object):
-    def __init__(self, type = 'native', kernel_size = 5, stride = 2, num_trees = 1000, num_split_trees = 100, tree_type = 'S-RerF', patch_height_min = 1, patch_width_min = 1, patch_height_max = 5, patch_width_max = 5):
+    def __init__(self, type = 'native', kernel_size = 5, stride = 2, num_trees = 1000, tree_type = 'S-RerF', patch_height_min = 1, patch_width_min = 1, patch_height_max = 5, patch_width_max = 5):
         self.kernel_size = kernel_size
         self.stride = stride
         self.num_trees = num_trees;
@@ -17,7 +17,6 @@ class ConvMF(object):
         self.patch_height_max = patch_height_max
         self.patch_width_max = patch_width_max
         self.patch_width_min = patch_width_min
-        self.num_split_trees = num_split_trees
         self.time_taken = {"load": 0, "test_chop": 0, "train": 0, "fit": 0, "train_post": 0, "test": 0, "test_post": 0}
 
     def _convolve_chop(self, images, labels=None, flatten=False):
@@ -26,7 +25,7 @@ class ConvMF(object):
 
         #20 x 20
 
-        
+
         out_dim = int((in_dim - self.kernel_size) / self.stride) + 1  # calculate output dimensions
 
         # create matrix to hold the chopped images
@@ -110,27 +109,6 @@ class ConvMF(object):
                     MF_image[:, i, j] = self.forest[i][j].predict_proba(
                         sub_images[:, i, j])[..., 1][..., np.newaxis]
 
-        elif self.type == 'split_forest':
-            self.forest = []
-
-            batch_size, length, width,_ = images.shape
-            reshaped_images = images.reshape(batch_size, length*width)
-
-            MF_image = np.zeros((batch_size, self.num_trees, self.num_classes))
-
-            for n in range(self.num_trees):
-                self.forest.append(rerfClassifier(projection_matrix=self.tree_type,
-                                             n_estimators=self.num_split_trees,
-                                             n_jobs=cpu_count() - 1,
-                                             image_height=length,
-                                             image_width=width,
-                                             patch_height_min=self.patch_height_min,
-                                             patch_width_min=self.patch_width_min,
-                                             patch_height_max=self.patch_height_max,
-                                             patch_width_max=self.patch_height_min));
-                self.forest[n].fit(reshaped_images, labels);
-                MF_image[:,n] = self.forest[n].predict_proba(reshaped_images)
-
         return MF_image
 
 
@@ -153,14 +131,6 @@ class ConvMF(object):
                 for j in range(out_dim):
                     kernel_predictions[:, i, j] = self.forest[i][j].predict_proba(
                             sub_images[:, i, j])
-
-        elif self.type == 'split_forest':
-            batch_size, length, width, _ = images.shape
-            reshaped_images = images.reshape(batch_size, length*width)
-            kernel_predictions = np.zeros((batch_size, self.num_trees, self.num_classes))
-            for n in range(self.num_trees):
-                kernel_predictions[:,n] = self.forest[n].predict_proba(reshaped_images)
-
         return kernel_predictions
 
 
@@ -186,12 +156,5 @@ class ConvMF(object):
                             sub_images[:, i, j])
             kernel_predictions = np.argmax(predictions, axis = 1)
 
-        if self.type == 'split_forest':
-            batch_size, length, width, _ = images.shape
-            reshaped_images = images.reshape(batch_size, length*width)
-            predictions = np.zeros((batch_size, self.num_classes))
-            for n in range(self.num_trees):
-                predictions = predictions + self.forest[n].predict_proba(reshaped_images)
-            kernel_predictions = np.argmax(predictions, axis = 1)
 
         return kernel_predictions

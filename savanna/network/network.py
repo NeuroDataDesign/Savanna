@@ -14,10 +14,18 @@ class Network(object):
 									patch_height_max = PATCH_HEIGHT_MAX,
 									patch_width_max = PATCH_WIDTH_MAX))
 
+	def add_NN(nn_object):
+			self.layers.append(nn_object)
+
 	def fit(self, images, labels):
 		prev = images
 		for layer in self.layers:
-			prev = layer.fit(prev, labels)
+			if isinstance(layer, ConvMF):
+				prev = layer.fit(prev, labels)
+			#else:
+				 #NEED TO FIX THIS
+
+
 
 	def predict(self, images):
 		prediction = []
