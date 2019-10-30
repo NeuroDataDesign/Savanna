@@ -1,3 +1,6 @@
+#BUGS: need to make this more robust to different dimensions; currently kernel needs different
+#dimensions
+
 import time
 from multiprocessing import cpu_count
 
@@ -22,8 +25,11 @@ class ConvMF(object):
         self.time_taken = {"load": 0, "test_chop": 0, "train": 0, "fit": 0, "train_post": 0, "test": 0, "test_post": 0}
 
     def _convolve_chop(self, images, labels=None, flatten=False):
-
-        batch_size, in_dim, _, num_channels = images.shape
+        if images.ndim == 3:
+            batch_size, in_dim, _ = images.shape
+            num_channels = 1
+        else:
+            batch_size, in_dim, _, num_channels = images.shape
 
         #20 x 20
 
@@ -91,7 +97,7 @@ class ConvMF(object):
 
         elif self.type == 'kernel_patches':
             sub_images, sub_labels = self._convolve_chop(images, labels=labels, flatten=True)
-            batch_size, out_dim, _ = sub_images.shape
+            batch_size, out_dim, _, _ = sub_images.shape
             MF_image = np.zeros((images.shape[0], out_dim, out_dim, self.num_classes))
             self.forest = np.zeros((out_dim, out_dim), dtype=np.int).tolist()
 
@@ -149,7 +155,7 @@ class ConvMF(object):
 
         elif self.type == 'kernel_patches':
             sub_images, _ = self._convolve_chop(images, flatten = True)
-            batch_size, out_dim, _ = sub_images.shape
+            batch_size, out_dim, _, _ = sub_images.shape
             kernel_predictions = np.zeros((images.shape[0], out_dim, out_dim, self.num_classes))
             for i in range(out_dim):
                 for j in range(out_dim):
@@ -180,7 +186,7 @@ class ConvMF(object):
 
         if self.type == 'kernel_patches':
             sub_images, _ = self._convolve_chop(images, flatten = True)
-            batch_size, out_dim, _= sub_images.shape
+            batch_size, out_dim, _ , _= sub_images.shape
             predictions = np.zeros((images.shape[0], self.num_classes))
             for i in range(out_dim):
                 for j in range(out_dim):

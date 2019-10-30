@@ -17,22 +17,27 @@ def test_convmf_native():
                             sub_train_indices = np.arange(100)
                             )
 
+    train_image = trainset[0][:,:,:,0]
+    test_image = testset[0][:,:,:,0]
+    train_label = trainset[1]
+    test_label = testset[1]
+
     layer = ConvMF()
-    layerOutput = layer.fit(trainset[0], trainset[1])
+    layerOutput = layer.fit(train_image, train_label)
 
     nsamples, nclasses = layerOutput.shape
     assert nsamples == 100
     assert nclasses == 10
 
-    layerOutput = layer.predict(testset[0])
+    layerOutput = layer.predict(test_image)
     nsamples, nclasses = layerOutput.shape
     assert nsamples == 10000
     assert nclasses == 10
 
-    results = layer.final_predict(testset[0])
+    results = layer.final_predict(test_image)
     count = 0
     for i in range(len(results)):
-        if results[i] == testset[1][i]:
+        if results[i] == test_label[i]:
             count += 1
     score = count/nsamples
 
@@ -71,24 +76,29 @@ def test_convmf_kernel():
                             sub_train_indices = np.arange(100)
                             )
 
+    train_image = trainset[0]
+    test_image = testset[0]
+    train_label = trainset[1]
+    test_label = testset[1]
+
     layer = ConvMF(type = 'kernel_patches', num_trees = 10)
-    layerOutput = layer.fit(trainset[0], trainset[1])
+    layerOutput = layer.fit(train_image, train_label)
 
     nsamples, outdim, _, nclasses = layerOutput.shape
     assert nsamples == 100
     assert outdim == 12
     assert nclasses == 10
 
-    layerOutput = layer.predict(testset[0])
+    layerOutput = layer.predict(test_image)
     nsamples, outdim, _, nclasses = layerOutput.shape
     assert nsamples == 10000
     assert outdim == 12
     assert nclasses == 10
 
-    results = layer.final_predict(testset[0])
+    results = layer.final_predict(test_image)
     count = 0
     for i in range(len(results)):
-        if results[i] == testset[1][i]:
+        if results[i] == test_label[i]:
             count += 1
     score = count/nsamples
 

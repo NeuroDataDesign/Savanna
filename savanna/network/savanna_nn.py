@@ -1,15 +1,20 @@
 import abc
 
-class savanna_nn(metaclass=abc.ABCMETA):
+class Savanna_nn(metaclass=abc.ABCMeta):
 
     def __init__(self, pytorch_nn):
         self.pytorch_nn = pytorch_nn
         self.type = "savanna_nn"
 
     @abc.abstractmethod
-    def fit(self, input):
+    def fit(self, input, labels):
         return
 
-    @abc.abstractmethod
+
     def predict(self, input):
+        outputs = self.pytorch_nn(input)
+        return outputs
+
+    @abc.abstractmethod
+    def final_predict(self, input):
         return
