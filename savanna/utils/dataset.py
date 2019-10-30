@@ -68,11 +68,18 @@ def get_dataset(data_path, dataset_name="CIFAR10", is_numpy=True):
         testset = datasets.CIFAR10(root=data_path, train=False, download=True, transform=transformer)
 
     if is_numpy:
-        train_images = normalize(dataset_name, trainset.train_data)
-        test_images = normalize(dataset_name, testset.test_data)
+        if dataset_name == "CIFAR10":
+            train_images = normalize(dataset_name, trainset.data)
+            test_images = normalize(dataset_name, testset.data)
 
-        train_labels = np.array(trainset.train_labels)
-        test_labels = np.array(testset.test_labels)
+            train_labels = np.array(trainset.targets)
+            test_labels = np.array(testset.targets)
+        else:
+            train_images = normalize(dataset_name, trainset.train_data)
+            test_images = normalize(dataset_name, testset.test_data)
+
+            train_labels = np.array(trainset.train_labels)
+            test_labels = np.array(testset.test_labels)
 
         return (train_images, train_labels), (test_images, test_labels)
 

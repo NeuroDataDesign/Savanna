@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from rerf.rerfClassifier import rerfClassifier
 
 class ConvMF(object):
-    def __init__(self, type = 'native', kernel_size = 5, stride = 2, num_trees = 1000, num_split_trees = 100, tree_type = 'S-RerF', patch_height_min = 1, patch_width_min = 1, patch_height_max = 5, patch_width_max = 5):
+    def __init__(self, type = 'native', kernel_size = 5, stride = 2, num_trees = 1000, num_split_trees = 100, tree_type = 'S-RerF', patch_height_min = 1, patch_width_min = 1, patch_height_max = 5, patch_width_max = 5, max_depth = None):
         self.kernel_size = kernel_size
         self.stride = stride
         self.num_trees = num_trees;
@@ -18,6 +18,7 @@ class ConvMF(object):
         self.patch_width_max = patch_width_max
         self.patch_width_min = patch_width_min
         self.num_split_trees = num_split_trees
+        self.max_depth = max_depth
         self.time_taken = {"load": 0, "test_chop": 0, "train": 0, "fit": 0, "train_post": 0, "test": 0, "test_post": 0}
 
     def _convolve_chop(self, images, labels=None, flatten=False):
@@ -26,7 +27,7 @@ class ConvMF(object):
 
         #20 x 20
 
-        
+
         out_dim = int((in_dim - self.kernel_size) / self.stride) + 1  # calculate output dimensions
 
         # create matrix to hold the chopped images
@@ -63,7 +64,7 @@ class ConvMF(object):
         MF_image = np.zeros(5)
         self.num_classes = len(np.unique(labels))
         if self.type == 'native':
-            batch_size, length, width,_ = images.shape
+            batch_size, length, width = images.shape
 
 
             reshaped_images = images.reshape(batch_size, length*width)
@@ -90,7 +91,7 @@ class ConvMF(object):
 
         elif self.type == 'kernel_patches':
             sub_images, sub_labels = self._convolve_chop(images, labels=labels, flatten=True)
-            batch_size, out_dim, _, _ = sub_images.shape
+            batch_size, out_dim, _ = sub_images.shape
             MF_image = np.zeros((images.shape[0], out_dim, out_dim, self.num_classes))
             self.forest = np.zeros((out_dim, out_dim), dtype=np.int).tolist()
 
@@ -113,7 +114,7 @@ class ConvMF(object):
         elif self.type == 'split_forest':
             self.forest = []
 
-            batch_size, length, width,_ = images.shape
+            batch_size, length, width = images.shape
             reshaped_images = images.reshape(batch_size, length*width)
 
             MF_image = np.zeros((batch_size, self.num_trees, self.num_classes))
@@ -127,7 +128,8 @@ class ConvMF(object):
                                              patch_height_min=self.patch_height_min,
                                              patch_width_min=self.patch_width_min,
                                              patch_height_max=self.patch_height_max,
-                                             patch_width_max=self.patch_height_min));
+                                             patch_width_max=self.patch_height_min,
+                                             max_depth=self.max_depth));
                 self.forest[n].fit(reshaped_images, labels);
                 MF_image[:,n] = self.forest[n].predict_proba(reshaped_images)
 
@@ -140,14 +142,14 @@ class ConvMF(object):
             raise Exception("Should fit training data before  predicting")
 
         if self.type == 'native':
-            batch_size, length, width, _ = images.shape
+            batch_size, length, width = images.shape
             reshaped_images = images.reshape(batch_size, length*width)
             kernel_predictions = np.zeros((images.shape[0], length, width, 1))
             kernel_predictions = self.forest.predict_proba(reshaped_images)
 
         elif self.type == 'kernel_patches':
             sub_images, _ = self._convolve_chop(images, flatten = True)
-            batch_size, out_dim, _, _ = sub_images.shape
+            batch_size, out_dim, _ = sub_images.shape
             kernel_predictions = np.zeros((images.shape[0], out_dim, out_dim, self.num_classes))
             for i in range(out_dim):
                 for j in range(out_dim):
@@ -155,7 +157,7 @@ class ConvMF(object):
                             sub_images[:, i, j])
 
         elif self.type == 'split_forest':
-            batch_size, length, width, _ = images.shape
+            batch_size, length, width = images.shape
             reshaped_images = images.reshape(batch_size, length*width)
             kernel_predictions = np.zeros((batch_size, self.num_trees, self.num_classes))
             for n in range(self.num_trees):
@@ -171,14 +173,14 @@ class ConvMF(object):
         kernel_predictions = []
 
         if self.type == 'native':
-            batch_size, length, width, _ = images.shape
+            batch_size, length, width = images.shape
             reshaped_images = images.reshape(batch_size, length*width)
             kernel_predictions = np.zeros((images.shape[0], length, width, 1))
             kernel_predictions = self.forest.predict(reshaped_images)
 
         if self.type == 'kernel_patches':
             sub_images, _ = self._convolve_chop(images, flatten = True)
-            batch_size, out_dim, _, _ = sub_images.shape
+            batch_size, out_dim, _= sub_images.shape
             predictions = np.zeros((images.shape[0], self.num_classes))
             for i in range(out_dim):
                 for j in range(out_dim):
@@ -187,7 +189,7 @@ class ConvMF(object):
             kernel_predictions = np.argmax(predictions, axis = 1)
 
         if self.type == 'split_forest':
-            batch_size, length, width, _ = images.shape
+            batch_size, length, width = images.shape
             reshaped_images = images.reshape(batch_size, length*width)
             predictions = np.zeros((batch_size, self.num_classes))
             for n in range(self.num_trees):
